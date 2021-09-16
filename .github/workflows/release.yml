@@ -136,15 +136,16 @@ jobs:
         path: ./
 
     # Create ReleaseNote file
-#    - name: Create ReleaseNote
-#      id: releaseNote
-#      uses: actions/github-script@0.3.0
-#      with:
-#        github-token: ${{secrets.GITHUB_TOKEN}}
-#        script: |
-#          const core = require('@actions/core')
-#          const fs = require('fs');
-#          const runnerVersion = fs.readFileSync('${{ github.workspace }}/src/runnerversion', 'utf8').replace(/\n$/g, '')
+    - name: Create ReleaseNote
+      id: releaseNote
+      uses: actions/github-script@0.3.0
+      with:
+        github-token: ${{secrets.GITHUB_TOKEN}}
+        script: |
+          const core = require('@actions/core')
+          const fs = require('fs');
+          const runnerVersion = fs.readFileSync('${{ github.workspace }}/src/runnerversion', 'utf8').replace(/\n$/g, '')
+          core.setOutput('version', runnerVersion);
 #          var releaseNote = fs.readFileSync('${{ github.workspace }}/releaseNote.md', 'utf8').replace(/<RUNNER_VERSION>/g, runnerVersion)
 #          releaseNote = releaseNote.replace(/<WIN_X64_SHA>/g, '${{needs.build.outputs.win-x64-sha}}')
 #          releaseNote = releaseNote.replace(/<OSX_X64_SHA>/g, '${{needs.build.outputs.osx-x64-sha}}')
@@ -152,7 +153,6 @@ jobs:
 #          releaseNote = releaseNote.replace(/<LINUX_ARM_SHA>/g, '${{needs.build.outputs.linux-arm-sha}}')
 #          releaseNote = releaseNote.replace(/<LINUX_ARM64_SHA>/g, '${{needs.build.outputs.linux-arm64-sha}}')
 #          console.log(releaseNote)
-#          core.setOutput('version', runnerVersion);
 #          core.setOutput('note', releaseNote);
     # Create GitHub release
     - uses: actions/create-release@master
